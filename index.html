@@ -18,10 +18,8 @@
                 <img src="./Images/list.png" alt="" style="margin-top: 5px;" />
                 <div>
                     <h4 style="margin: 10px">Danh mục sản phẩm</h4>
-                    <ul>
-                        <li><button onclick="filter('raucu')" style="cursor: pointer;">Rau củ</button></li>
-                        <li><button onclick="filter('thit')" style="cursor: pointer;">Thịt</button></li>
-                        <li><button onclick="filter('ca')" style="cursor: pointer;">Cá</button></li>
+                    <ul id="listCategory">
+                        <!-- listCategory -->
                     </ul>
                 </div>
             </div>
@@ -76,7 +74,8 @@
                     </form>
                 </div>
             </div>
-            <!-- <div class="user" style="margin-top: 15px">
+
+            <div class="user" style="margin-top: 15px">
                 <a href="./SRC/login.html" style="display: flex">
                     <img src="./Images/user.png" width="30px" height="30px" style="padding: 0 5px 0 0">
                     <span style="margin-top: 7px">Khách hàng</span>
@@ -97,7 +96,8 @@
                     </form>
                     <p>Chưa có tài khoản? <a href="./SRC/register.html"><u style="color: black;">Đăng ký ngay</u></a></p>
                 </div>
-            </div> -->
+            </div>
+
             <!-- Modal chi tiết sản phẩm -->
             <div id="productDetailModal" class="modal">
                 <div class="modal-content">
@@ -204,7 +204,7 @@
                     <!-- <img src="./Images/textboxend.png" alt="" width="25px" style="margin: -6px;" /> -->
                 </div>
                 <div>
-                    <button style="color: black; cursor: pointer;" onclick="filter('all')">>Xem tất cả</button>
+                    <button style="color: black; cursor: pointer;" id="showAll">>Xem tất cả</button>
                 </div>
             </div>
             <hr />
@@ -218,6 +218,7 @@
     </div>
 
     <script src="home.js"></script>
+    <script src="category.js"></script>
 </body>
 
 </html>

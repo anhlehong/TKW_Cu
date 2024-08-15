@@ -40,6 +40,18 @@ app.get('/api/products', (req, res) => {
     });
 });
 
+// API để lấy danh sách category
+app.get('/api/categories', (req, res) => {
+    connection.query('SELECT * FROM category', (err, results) => {
+        if (err) {
+            console.error('Lỗi khi truy vấn dữ liệu:', err);
+            res.status(500).send('Đã xảy ra lỗi khi lấy dữ liệu category');
+        } else {
+            res.json(results);
+        }
+    });
+});
+
 // Khởi động server
 app.listen(port, () => {
     console.log(`Server đang chạy tại http://localhost:${port}`);

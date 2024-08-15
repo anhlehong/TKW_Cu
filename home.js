@@ -1,33 +1,19 @@
 // Định dạng tiền tệ VND
 function formatCurrencyVND(amount) {
-    // Sử dụng toLocaleString để định dạng số và sau đó loại bỏ ký hiệu "₫"
     return amount.toLocaleString('vi-VN').replace('₫', '').trim() + ' VNĐ';
 }
 
 // Hiển thị chi tiết sản phẩm trong modal
 function showProductDetail(product) {
-    // Lấy các phần tử trong modal
     const modal = document.getElementById('productDetailModal');
-    const modalProductName = document.getElementById('modalProductName');
-    const modalProductImage = document.getElementById('modalProductImage');
-    const modalProductPrice = document.getElementById('modalProductPrice');
-    const modalProductType = document.getElementById('modalProductType');
-    const modalProductUnit = document.getElementById('modalProductUnit');
-    const modalProductOrigin = document.getElementById('modalProductOrigin');
-    const modalProductQuantity = document.getElementById('modalProductQuantity');
-    const modalProductDescription = document.getElementById('modalProductDescription');
-
-    // Điền thông tin sản phẩm vào modal
-    modalProductName.textContent = product.product_name;
-    modalProductImage.src = product.picture;
-    modalProductPrice.textContent = formatCurrencyVND(product.unit_price);
-    modalProductType.textContent = product.category;
-    modalProductUnit.textContent = product.unit;
-    modalProductOrigin.textContent = product.origin;
-    modalProductQuantity.textContent = product.stock;
-    modalProductDescription.textContent = product.description;
-
-    // Hiển thị modal
+    document.getElementById('modalProductName').textContent = product.product_name;
+    document.getElementById('modalProductImage').src = product.picture;
+    document.getElementById('modalProductPrice').textContent = formatCurrencyVND(product.unit_price);
+    document.getElementById('modalProductType').textContent = product.category;
+    document.getElementById('modalProductUnit').textContent = product.unit;
+    document.getElementById('modalProductOrigin').textContent = product.origin;
+    document.getElementById('modalProductQuantity').textContent = product.stock;
+    document.getElementById('modalProductDescription').textContent = product.description;
     modal.style.display = 'block';
 }
 
@@ -58,10 +44,11 @@ fetch('/api/products')
         data.forEach(product => {
             console.log("product: ", product);
 
-            // Tạo thẻ div chứa thông tin sản phẩm
+            // Tạo thẻ div chứa thông tin sản phẩm và thêm thuộc tính data-category
             const productDiv = document.createElement('div');
             productDiv.classList.add('sp');
             productDiv.setAttribute('id', `product-${product.id}`);
+            productDiv.setAttribute('data-category', product.category_id); // Thêm data-category với giá trị category_id
 
             // Tạo và thêm hình ảnh sản phẩm
             const img = document.createElement('img');
@@ -84,7 +71,6 @@ fetch('/api/products')
             // Tạo và thêm chi tiết sản phẩm
             const detailsDiv = document.createElement('div');
             detailsDiv.classList.add('details');
-            detailsDiv.setAttribute('id', 'raucu-details');
             detailsDiv.style.display = 'none';
 
             const categoryP = document.createElement('p');
@@ -133,7 +119,85 @@ fetch('/api/products')
             // Thêm sản phẩm vào contentDiv
             contentDiv.appendChild(productDiv);
         });
+
+        // Thêm sự kiện click cho các nút thêm vào giỏ hàng
+        var addCartBtn = document.getElementsByClassName("addbtn");
+        for (var i = 0; i < addCartBtn.length; i++) {
+            var btn = addCartBtn[i];
+            btn.addEventListener("click", addCartClicked);
+        }
     })
     .catch(error => {
         console.error('Error fetching data:', error);
     });
+
+
+// Thêm sản phẩm vào giỏ hàng
+function addCartClicked(event) {
+    var btn = event.target;
+    var item = btn.parentElement.parentElement;
+    var name = item.getElementsByClassName("sp-name")[0].innerText;
+    var price = item.getElementsByClassName("price")[0].innerText;
+    var img = item.getElementsByClassName("sp-img")[0].src;
+    addItemToCart(name, price, img);
+    updateCart();
+}
+
+function addItemToCart(name, price, img) {
+    var cartRow = document.createElement("div");
+    var cartRowContent = `
+    <div class="item">
+        <div class="imn item-col">
+            <img src="${img}">
+            <span class="item-name">${name}</span>
+        </div>
+        <span class="price item-col">${price}</span>
+        <div class="item-col">
+            <input class="quanti" type="number" value="1">
+            <button class="delbtn">Xóa</button>
+        </div>
+    </div>`;
+    cartRow.innerHTML = cartRowContent;
+    var items = document.getElementsByClassName("items")[0];
+    var itemNames = items.getElementsByClassName("item-name");
+    for (var i = 0; i < itemNames.length; i++) {
+        if (itemNames[i].innerText === name) {
+            alert("Vật phẩm này đã có trong giỏ hàng.");
+            return;
+        }
+    }
+    items.append(cartRow);
+
+    // Thêm sự kiện click cho nút xóa và thay đổi số lượng
+    cartRow.getElementsByClassName("delbtn")[0].addEventListener("click", removeCartItem);
+    cartRow.getElementsByClassName("quanti")[0].addEventListener("change", quantiChanged);
+}
+
+function removeCartItem(event) {
+    var btnRemove = event.target;
+    btnRemove.parentElement.parentElement.remove();
+    updateCart();
+}
+
+function quantiChanged(event) {
+    var input = event.target;
+    if (isNaN(input.value) || input.value <= 0) {
+        input.value = 1;
+    }
+    updateCart();
+}
+
+function updateCart() {
+    var itemContainer = document.getElementsByClassName("items")[0];
+    var cartRows = itemContainer.getElementsByClassName("item");
+    var total = 0;
+    for (var i = 0; i < cartRows.length; i++) {
+        var cartRow = cartRows[i];
+        var priceEl = cartRow.getElementsByClassName("price")[0];
+        var quantiEl = cartRow.getElementsByClassName("quanti")[0];
+        var price = parseFloat(priceEl.innerText.replace(".000 VNĐ", ""));
+        var quanti = quantiEl.value;
+        total += price * quanti;
+    }
+    document.getElementsByClassName("total-price")[0].innerText = total + ".000 VNĐ";
+}
