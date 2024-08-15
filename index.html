@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="CSS/style.css" type="text/css" />
     <script src="./JS/main.js" async></script>
 </head>
+
 <body>
     <div class="page-container">
         <div class="header">
@@ -38,7 +40,7 @@
                     <a href="">Đăng xuất</a>
                 </div>
             </div>
-            
+
             <!-- Hồ sơ của tôi (Popup) -->
             <div id="profileModal" class="modal">
                 <div class="modal-content">
@@ -47,33 +49,33 @@
                     <form id="profileForm">
                         <label for="fullname">Họ và tên:</label>
                         <input type="text" id="fullname" name="fullname">
-            
+
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email">
-            
+
                         <label for="password">Mật khẩu:</label>
                         <input type="password" id="password" name="password">
-            
+
                         <label for="address">Địa chỉ:</label>
                         <input type="text" id="address" name="address">
-            
+
                         <label for="phone">Số điện thoại:</label>
                         <input type="text" id="phone" name="phone">
-            
+
                         <label for="birthday">Ngày sinh:</label>
                         <input type="date" id="birthday" name="birthday">
-            
+
                         <label for="gender">Giới tính:</label>
                         <select id="gender" name="gender">
                             <option value="male">Nam</option>
                             <option value="female">Nữ</option>
                             <option value="other">Khác</option>
                         </select>
-            
+
                         <button type="button" onclick="saveProfile()">Lưu thay đổi</button>
                     </form>
                 </div>
-            </div>    
+            </div>
             <!-- <div class="user" style="margin-top: 15px">
                 <a href="./SRC/login.html" style="display: flex">
                     <img src="./Images/user.png" width="30px" height="30px" style="padding: 0 5px 0 0">
@@ -99,22 +101,23 @@
             <!-- Modal chi tiết sản phẩm -->
             <div id="productDetailModal" class="modal">
                 <div class="modal-content">
-                  <span class="close" onclick="closeProductDetail()">&times;</span>
-                  <div class="product-detail-container">
-                    <div class="product-info">
-                      <h2 id="modalProductName">Tên sản phẩm</h2>
-                      <img id="modalProductImage" src="" alt="Hình ảnh sản phẩm">
-                      <p><strong>Giá:</strong> <span id="modalProductPrice"></span></p>
-                      <p><strong>Loại:</strong> <span id="modalProductType"></span></p>
-                      <p><strong>Đơn vị:</strong> <span id="modalProductUnit"></span></p>
-                      <p><strong>Xuất xứ:</strong> <span id="modalProductOrigin"></span></p>
-                      <p><strong>Số lượng:</strong> <span id="modalProductQuantity"></span></p>
-                      <p><strong>Mô tả:</strong> <span id="modalProductDescription"></span></p>
-                    </div>
+                    <span class="close" onclick="closeProductDetail()">&times;</span>
+                    <div class="product-detail-container">
+                        <div class="product-info">
+                            <h2 id="modalProductName">Tên sản phẩm</h2>
+                            <img id="modalProductImage" src="" alt="Hình ảnh sản phẩm">
+                            <p><strong>Giá:</strong> <span id="modalProductPrice"></span></p>
+                            <p><strong>Loại:</strong> <span id="modalProductType"></span></p>
+                            <p><strong>Đơn vị:</strong> <span id="modalProductUnit"></span></p>
+                            <p><strong>Xuất xứ:</strong> <span id="modalProductOrigin"></span></p>
+                            <p><strong>Số lượng:</strong> <span id="modalProductQuantity"></span></p>
+                            <p><strong>Mô tả:</strong> <span id="modalProductDescription"></span></p>
+                        </div>
 
-                  </div>
+                    </div>
                 </div>
-              </div>
+            </div>
+
             <div class="cart">
                 <button class="cartbtn" id="cartbtn" onclick="display()">
                     <img src="./Images/basket.png" width="30px" height="30px" style="padding: 0 5px 0 0">
@@ -122,7 +125,7 @@
                 </button>
                 <div id="basket">
                     <div id="mini" align="center">
-                        <button onclick="close_m()" id="x">x</button>   
+                        <button onclick="close_m()" id="x">x</button>
                         <h3>GIỎ HÀNG</h3>
                         <hr style="height: 3px;">
                         <div class="header-row">
@@ -142,55 +145,55 @@
                         </div>
                     </div>
                 </div>
-                
-                       <!--  Thanh toán   -->
-                       <div id="checkoutModal" class="checkout-modal">
-                        <div class="checkout-content">
-                            <h3>Thông tin Thanh toán</h3>
-                            <hr>
-                            <div class="checkout-section">
-                                <h4>Sản phẩm</h4>
-                                <div id="productList"></div>
-                            </div>
-                            <div class="checkout-section">
-                                <h4>Hình thức vận chuyển</h4>
-                                <select id="shippingMethod" onchange="calculateTotal()">
-                                    <option value="ship" data-cost="0">Chọn hình thức vận chuyển</option>
-                                    <option value="common" data-cost="10000">Giao hàng tiết kiệm (10,000 VNĐ)</option>
-                                    <option value="fast" data-cost="20000">Giao hàng nhanh (20,000 VNĐ)</option>
-                                    <option value="optimal" data-cost="40000">Giao hàng hỏa tốc (40,000 VNĐ)</option>
-                                </select>
-                            </div>
-                            <div class="checkout-section">
-                                <h4>Địa chỉ giao hàng</h4>
-                                <input type="text" id="shippingAddress" placeholder="Nhập địa chỉ giao hàng của bạn">
-                            </div>
-                            <div class="checkout-section">
-                                <h4>Mã giảm giá</h4>
-                                <select id="discountCode" onchange="applyDiscount()">
-                                    <option value="none" data-cost="0">Chọn mã giảm giá</option>
-                                    <option value="giam10" data-cost="10000">Giảm 10,000 VNĐ</option>
-                                    <option value="giam20" data-cost="20000">Giảm 20,000 VNĐ</option>
-                                    <option value="giam50" data-cost="50000">Giảm 50,000 VNĐ</option>
-                                    <option value="giam100" data-cost="100000">Giảm 100,000 VNĐ</option>
-                                </select>
-                            </div>
-                            
-                            <div class="checkout-section">
-                                <h4>Tổng tiền</h4>
-                                <span id="totalAfterDiscount">0.000 VNĐ</span>
-                            </div>
-                            <div class="checkout-buttons">
-                                <button onclick="confirmPayment()">Xác nhận thanh toán</button>
-                                <button onclick="closeCheckout()">Đóng</button>
-                            </div>
-                        </div>
-                        <button class="basbtn ord" onclick="displayCheckout()">Thanh toán</button>
-                        <!-- Đảm bảo hàm confirmPayment và applyDiscount đã được gọi từ các nút tương ứng -->
-                        <button onclick="confirmPayment()">Xác nhận thanh toán</button>
-                        <button onclick="applyDiscount()">Áp dụng</button>
 
-                    </div>                    
+                <!--  Thanh toán   -->
+                <div id="checkoutModal" class="checkout-modal">
+                    <div class="checkout-content">
+                        <h3>Thông tin Thanh toán</h3>
+                        <hr>
+                        <div class="checkout-section">
+                            <h4>Sản phẩm</h4>
+                            <div id="productList"></div>
+                        </div>
+                        <div class="checkout-section">
+                            <h4>Hình thức vận chuyển</h4>
+                            <select id="shippingMethod" onchange="calculateTotal()">
+                                <option value="ship" data-cost="0">Chọn hình thức vận chuyển</option>
+                                <option value="common" data-cost="10000">Giao hàng tiết kiệm (10,000 VNĐ)</option>
+                                <option value="fast" data-cost="20000">Giao hàng nhanh (20,000 VNĐ)</option>
+                                <option value="optimal" data-cost="40000">Giao hàng hỏa tốc (40,000 VNĐ)</option>
+                            </select>
+                        </div>
+                        <div class="checkout-section">
+                            <h4>Địa chỉ giao hàng</h4>
+                            <input type="text" id="shippingAddress" placeholder="Nhập địa chỉ giao hàng của bạn">
+                        </div>
+                        <div class="checkout-section">
+                            <h4>Mã giảm giá</h4>
+                            <select id="discountCode" onchange="applyDiscount()">
+                                <option value="none" data-cost="0">Chọn mã giảm giá</option>
+                                <option value="giam10" data-cost="10000">Giảm 10,000 VNĐ</option>
+                                <option value="giam20" data-cost="20000">Giảm 20,000 VNĐ</option>
+                                <option value="giam50" data-cost="50000">Giảm 50,000 VNĐ</option>
+                                <option value="giam100" data-cost="100000">Giảm 100,000 VNĐ</option>
+                            </select>
+                        </div>
+
+                        <div class="checkout-section">
+                            <h4>Tổng tiền</h4>
+                            <span id="totalAfterDiscount">0.000 VNĐ</span>
+                        </div>
+                        <div class="checkout-buttons">
+                            <button onclick="confirmPayment()">Xác nhận thanh toán</button>
+                            <button onclick="closeCheckout()">Đóng</button>
+                        </div>
+                    </div>
+                    <button class="basbtn ord" onclick="displayCheckout()">Thanh toán</button>
+                    <!-- Đảm bảo hàm confirmPayment và applyDiscount đã được gọi từ các nút tương ứng -->
+                    <button onclick="confirmPayment()">Xác nhận thanh toán</button>
+                    <button onclick="applyDiscount()">Áp dụng</button>
+
+                </div>
             </div>
         </div>
 
@@ -206,117 +209,15 @@
             </div>
             <hr />
             <br />
-            <div class="sp" id="raucu">
-                <img src="https://product.hstatic.net/200000423303/product/ca-rot-huu-co_051657cb99144443bac8015f6dd34dae_1024x1024.jpg" class="sp-img" />
-                <p class="sp-name">Cà rốt</p>
-                <p class="price">15.000 VNĐ</p>
-                <div id="raucu-details" class="details" style="display: none;">
-                    <p class="category">Loại: Rau củ</p>
-                    <p class="unit">Đơn vị: Kg</p>
-                    <p class="origin">Xuất xứ: Việt Nam</p>
-                    <p class="quantity">Số lượng: 1</p>
-                    <p class="description">Cà rốt hữu cơ giàu dinh dưỡng.</p>
-                </div>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
-            <div class="sp" id="ca">
-                <img src="https://cdn.tgdd.vn/Products/Images/8782/309131/bhx/ca-tre-lam-sach-202405301322566465.jpg" class="sp-img" />
-                <p class="sp-name">Cá trê</p>
-                <p class="price">20.000 VNĐ</p>
-                <div id="raucu-details" class="details" style="display: none;">
-                    <p class="category">Loại: Cá</p>
-                    <p class="unit">Đơn vị: Kg</p>
-                    <p class="origin">Xuất xứ: Việt Nam</p>
-                    <p class="quantity">Số lượng: 10</p>
-                    <p class="description">Cà trê ngon.</p>
-                </div>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
-            <div class="sp" id="raucu">
-                <img src="https://cdn.tgdd.vn/Products/Images/8785/230449/bhx/ca-chua-202312251318033167.jpg" class="sp-img" />
-                <p class="sp-name">Cà chua</p>
-                <p class="price">7.000 VNĐ</p>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
-            <div class="sp" id="raucu">
-                <img src="https://cdn.tgdd.vn/Products/Images/8785/230439/bhx/ca-tim-202312281038446064.jpg" class="sp-img" />
-                <p class="sp-name">Cà tím</p>
-                <p class="price">21.000 VNĐ</p>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
-            <div class="sp" id="raucu">
-                <img src="https://cdn.tgdd.vn/Products/Images/8820/309238/bhx/cai-thia-500g-202401101328255642.jpg" class="sp-img" />
-                <p class="sp-name">Cải thìa</p>
-                <p class="price">21.000 VNĐ</p>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
-            <!-- <div class="classsp" style="margin-top: 15px">
-                <div>
-                    <span>Cá</span>
-                    <img src="./Images/textboxend.png" alt="" width="25px" style="margin: -6px;" />
-                </div>
-                <div>
-                    <button onclick="filter('all')">>Xem tất cả</button>
-                </div>
-            </div>
-            <hr />
-            <br /> -->
-            <div class="sp" id="ca">
-                <img src="https://cdn.tgdd.vn/Products/Images/8782/325158/bhx/ca-basa-cat-lat-202405091124028843.jpg" class="sp-img" />
-                <p class="sp-name">Cá basa cắt lát</p>
-                <p class="price">27.000 VNĐ</p>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
-            <div class="sp" id="thit">
-                <img src="https://cdn.tgdd.vn/Products/Images/8781/241201/bhx/-202306211526067045.jpg" class="sp-img" />
-                <p class="sp-name">Thịt đùi heo 300g</p>
-                <p class="price">47.000 VNĐ</p>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
-            <div class="sp" id="ca">
-                <img src="https://cdn.tgdd.vn/Products/Images/8782/326102/bhx/-202407081612125955.jpg" class="sp-img" />
-                <p class="sp-name">Cá kèo 500g</p>
-                <p class="price">255.000 VNĐ</p>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
-            <div class="sp" id="ca">
-                <img src="https://cdn.tgdd.vn/Products/Images/8782/326100/bhx/ca-chot-lam-sach-500g-50-70-con-202407151210333523.jpg" class="sp-img" />
-                <p class="sp-name">Cá chốt làm sạch 500g</p>
-                <p class="price">65.000 VNĐ</p>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
-            <div class="sp" id="thit">
-                <img src="https://cdn.tgdd.vn/Products/Images/8790/226948/bhx/dui-ga-goc-tu-cp-500g-1-3-mieng-202309211439146997.jpg" class="sp-img" />
-                <p class="sp-name">Đùi gà góc tư</p>
-                <p class="price">42.000 VNĐ</p>
-                <p class="btn">
-                    <button class="addbtn">Thêm Vào Giỏ Hàng</button>
-                </p>
-            </div>
+            <!-- show product -->
         </div>
 
         <div class="lk" style="margin: 0 15px 0 15px">
             <h1>Bách hóa NTKPL</h1>
         </div>
     </div>
-    <script src="./JAVA/main.js"></script>
+
+    <script src="home.js"></script>
 </body>
+
 </html>
