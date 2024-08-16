@@ -9,10 +9,10 @@ function showProductDetail(product) {
     document.getElementById('modalProductName').textContent = product.product_name;
     document.getElementById('modalProductImage').src = product.picture;
     document.getElementById('modalProductPrice').textContent = formatCurrencyVND(product.unit_price);
-    document.getElementById('modalProductType').textContent = product.category;
+    // document.getElementById('modalProductType').textContent = product.category;
     document.getElementById('modalProductUnit').textContent = product.unit;
     document.getElementById('modalProductOrigin').textContent = product.origin;
-    document.getElementById('modalProductQuantity').textContent = product.stock;
+    // document.getElementById('modalProductQuantity').textContent = product.stock;
     document.getElementById('modalProductDescription').textContent = product.description;
     modal.style.display = 'block';
 }
@@ -42,13 +42,13 @@ fetch('/api/products')
     .then(data => {
         const contentDiv = document.querySelector('.content');
         data.forEach(product => {
-            console.log("product: ", product);
-
             // Tạo thẻ div chứa thông tin sản phẩm và thêm thuộc tính data-category
             const productDiv = document.createElement('div');
             productDiv.classList.add('sp');
-            productDiv.setAttribute('id', `product-${product.id}`);
+            productDiv.setAttribute('id', `${product.id}`);
             productDiv.setAttribute('data-category', product.category_id); // Thêm data-category với giá trị category_id
+            productDiv.setAttribute('data-price', `${product.unit_price}`);
+
 
             // Tạo và thêm hình ảnh sản phẩm
             const img = document.createElement('img');

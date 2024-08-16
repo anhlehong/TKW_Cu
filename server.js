@@ -1,56 +1,86 @@
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql2');
+const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
+const session = require('express-session');
 
-// Thiết lập kết nối cơ sở dữ liệu MySQL
-const connection = mysql.createConnection({
-    host: 'localhost',  // Địa chỉ host của MySQL
-    user: 'root',  // Tên người dùng MySQL
-    password: '123456',  // Mật khẩu MySQL của bạn
-    database: 'BachHoa'  // Tên cơ sở dữ liệu MySQL
-});
+// Kết nối cơ sở dữ liệu MySQL
+const connection = require('./db');
 
-connection.connect(err => {
-    if (err) {
-        console.error('Lỗi kết nối cơ sở dữ liệu:', err);
-        return;
-    }
-    console.log('Kết nối thành công đến cơ sở dữ liệu MySQL');
-});
+// Sử dụng middleware để parse JSON body
+app.use(express.json());
 
-// Serve các tệp tĩnh từ thư mục hiện tại
-app.use(express.static(path.join(__dirname)));
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }  // Set thành true nếu dùng HTTPS
+}));
 
-// Định nghĩa route để phục vụ trang chủ
+// Phục vụ các tệp CSS và JS từ các thư mục cụ thể
+app.use('/CSS', express.static(path.join(__dirname, 'CSS')));
+app.use('/Images', express.static(path.join(__dirname, 'Images')));
+app.use('/JS', express.static(path.join(__dirname, 'JS')));
+
+// Định nghĩa route để phục vụ tệp HTML cho trang chủ
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// API để lấy danh sách sản phẩm
-app.get('/api/products', (req, res) => {
-    connection.query('SELECT * FROM products', (err, results) => {
-        if (err) {
-            console.error('Lỗi khi truy vấn dữ liệu:', err);
-            res.status(500).send('Đã xảy ra lỗi khi lấy dữ liệu sản phẩm');
-        } else {
-            res.json(results);
-        }
-    });
+// Route cho trang đăng nhập
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'login.html'));
 });
 
-// API để lấy danh sách category
-app.get('/api/categories', (req, res) => {
-    connection.query('SELECT * FROM category', (err, results) => {
-        if (err) {
-            console.error('Lỗi khi truy vấn dữ liệu:', err);
-            res.status(500).send('Đã xảy ra lỗi khi lấy dữ liệu category');
-        } else {
-            res.json(results);
-        }
-    });
+// Route cho trang đăng ký
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'register.html'));
 });
+
+// Route cho trang admin
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Route cho trang hóa đơn (orders)
+app.get('/orders', (req, res) => {
+    res.sendFile(path.join(__dirname, 'orders.html'));
+});
+
+// Route cho trang quản lý khách hàng (customers)
+app.get('/customers', (req, res) => {
+    res.sendFile(path.join(__dirname, 'customers.html'));
+});
+
+// Route cho trang nhân viên (employees.html)
+app.get('/employees', (req, res) => {
+    res.sendFile(path.join(__dirname, 'employees.html'));
+});
+
+// Import các route từ thư mục routes
+const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/product');
+const categoryRoutes = require('./routes/category');
+const paymentRoutes = require('./routes/payment');
+const userRoutes = require('./routes/user');
+const orderRoutes = require('./routes/orders');
+const customerRoutes = require('./routes/customers');
+const employeeRoutes = require('./routes/employees'); // Thêm routes cho nhân viên
+
+
+
+// Sử dụng các route
+app.use('/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/payment', paymentRoutes);
+app.use('/user', userRoutes);
+app.use('/api/orders', orderRoutes); // Route mới cho orders
+app.use('/api/customers', customerRoutes);
+app.use('/api/employees', employeeRoutes); // Sử dụng routes cho nhân viên
+
 
 // Khởi động server
 app.listen(port, () => {
